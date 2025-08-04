@@ -28,6 +28,7 @@ class VendorStoreRequest extends FormRequest
         return [
             'name' => 'required|string|max:256',
             'email' => 'required|unique:users,email|email|max:256',
+            'phone' => 'required|unique:users,phone|numeric|digits_between:10,12',
             'password' => 'required|string'
         ];
     }
@@ -39,6 +40,8 @@ class VendorStoreRequest extends FormRequest
             'email.required' => 'Email field is required.',
             'email.unique' => 'Email already been taken.',
             'password.required' => 'Password field is required.',
+            'phone.required' => 'Mobile Number field is required.',
+            'phone.unique' => 'Mobile Number already been taken.',
         ];
     }
 

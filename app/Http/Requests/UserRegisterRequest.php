@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
-class VendorUpdateRequest extends FormRequest
+class UserRegisterRequest extends FormRequest
 {
     public $validator = null;
 
@@ -27,22 +27,21 @@ class VendorUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:256',
-            'email' => 'required|email|max:256|unique:users,email,' . request()->uuid . ',uuid',
-            'phone' => 'required|numeric|digits_between:10,12|unique:users,phone,' . request()->uuid . ',uuid',
-            'password' => 'nullable|string',
-            'status' => 'required|numeric|min:0|max:1',
+            'email' => 'required|unique:users,email|email|max:256',
+            'phone' => 'required|unique:users,phone|numeric|digits_between:10,12',
+            'password' => 'required|string'
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required' => 'Vendor name field is required.',
+            'name.required' => 'Name field is required.',
             'email.required' => 'Email field is required.',
             'email.unique' => 'Email already been taken.',
-            'status.required' => 'Status field is required.',
             'phone.required' => 'Mobile Number field is required.',
             'phone.unique' => 'Mobile Number already been taken.',
+            'password.required' => 'Password field is required.',
         ];
     }
 

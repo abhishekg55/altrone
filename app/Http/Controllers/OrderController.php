@@ -62,4 +62,14 @@ class OrderController extends Controller
     {
         //
     }
+
+    public function goTocheckout()
+    {
+        return view('frontend.checkout');
+    }
+
+    function checkout(Request $request)
+    {
+        dd($request->all());
+    }
 }

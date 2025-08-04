@@ -9,80 +9,10 @@
             <div class="billing-details">
                 <div class="shop-form">
 
-                    @guest('user')
-                        <div class="row clearfix">
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <form method="post" action="">
-                                    <div class="title-box">
-                                        <h2>Login</h2>
-                                    </div>
-                                    <div class="billing-inner">
-                                        <div class="row clearfix">
-                                            <!--Form Group-->
-                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                                                <div class="field-label">Email Address <sup>*</sup></div>
-                                                <input type="text" name="field-name" value=""
-                                                    placeholder="Email Address">
-                                            </div>
-                                            <!--Form Group-->
-                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                                                <div class="field-label">Password <sup>*</sup></div>
-                                                <input type="text" name="field-name" value=""
-                                                    placeholder="Email Address">
-                                            </div>
-
-                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                                                <div class="place-order">
-                                                    <button type="submit" class="theme-btn order-btn">Login</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <form method="post" action="">
-                                    <div class="title-box">
-                                        <h2>Register</h2>
-                                    </div>
-                                    <div class="billing-inner">
-                                        <div class="row clearfix">
-                                            <!--Form Group-->
-                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                                                <div class="field-label">Name <sup>*</sup></div>
-                                                <input type="text" name="name" value="" placeholder="Enter Name">
-                                            </div>
-                                            <!--Form Group-->
-                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                                                <div class="field-label">Email Address <sup>*</sup></div>
-                                                <input type="email" name="email" value="" placeholder="Email Address">
-                                            </div>
-                                            <!--Form Group-->
-                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                                                <div class="field-label">Mobile Number <sup>*</sup></div>
-                                                <input type="text" name="phone" value="" placeholder="Mobile Number">
-                                            </div>
-                                            <!--Form Group-->
-                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                                                <div class="field-label">Password <sup>*</sup></div>
-                                                <input type="text" name="field-name" value=""
-                                                    placeholder="Email Address">
-                                            </div>
-
-                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                                                <div class="place-order">
-                                                    <button type="submit" class="theme-btn order-btn">Register</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    @endguest
-
-                    @auth('user')
-                        <form method="post" action="checkout.html">
+                    @if (auth('customer')->check())
+                        <form action="{{ route('checkout') }}" method="POST" name="frmCheckout" id="frmCheckout" role="form"
+                            data-skip="" data-validation="">
+                            @csrf
                             <div class="row clearfix">
                                 <div class="col-lg-7 col-md-12 col-sm-12">
 
@@ -91,34 +21,33 @@
                                     </div>
                                     <div class="billing-inner">
                                         <div class="row clearfix">
-
                                             <!--Form Group-->
                                             <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                                 <div class="field-label">Name <sup>*</sup></div>
-                                                <input type="text" name="field-name" value="" placeholder="Name">
+                                                <input value="{{ auth('customer')->user()->name }}" class="form-control"
+                                                    disabled>
                                             </div>
 
                                             <!--Form Group-->
                                             <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                                 <div class="field-label">Email Address <sup>*</sup></div>
-                                                <input type="text" name="field-name" value=""
-                                                    placeholder="Email Address">
+                                                <input value="{{ auth('customer')->user()->email }}" class="form-control"
+                                                    disabled>
                                             </div>
 
                                             <!--Form Group-->
                                             <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                                 <div class="field-label">Phone <sup>*</sup></div>
-                                                <input type="text" name="field-name" value=""
-                                                    placeholder="Select an option">
+                                                <input value="{{ auth('customer')->user()->phone }}" class="form-control"
+                                                    disabled>
                                             </div>
 
                                             <!--Form Group-->
                                             <div class="form-group col-md-12 col-sm-12 col-xs-12">
                                                 <div class="field-label">Address <sup>*</sup></div>
-                                                <input type="email" name="field-name" value=""
-                                                    placeholder="Street Address">
+                                                <input type="text" name="address" placeholder="Enter Address"
+                                                    class="form-control">
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -155,14 +84,15 @@
                                                             <input type="radio" name="payment-group" id="payment-3"
                                                                 checked>
                                                             <label for="payment-3"><strong>Paypal</strong><img
-                                                                    src="assets/images/resource/paypall.jpg" alt="" />
+                                                                    src="assets/images/resource/paypall.jpg"
+                                                                    alt="" />
                                                             </label>
                                                         </div>
                                                     </li>
                                                 </ul>
                                             </div>
 
-                                            <button type="button" class="theme-btn order-btn">Order Place</button>
+                                            <button type="submit" class="theme-btn order-btn">Order Place</button>
 
                                         </div>
                                         <!--End Place Order-->
@@ -173,7 +103,84 @@
                                 </div>
                             </div>
                         </form>
-                    @endauth
+                    @else
+                        <div class="row clearfix">
+                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                <form action="{{ route('user.login') }}" method="POST" name="frmRegister" id="frmRegister"
+                                    role="form" data-skip="" data-validation="">
+                                    @csrf
+                                    <div class="title-box">
+                                        <h2>Login</h2>
+                                    </div>
+                                    <div class="billing-inner">
+                                        <div class="row clearfix">
+                                            <!--Form Group-->
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                <div class="field-label">Email Address <sup>*</sup></div>
+                                                <input type="text" name="field-name" value=""
+                                                    placeholder="Email Address">
+                                            </div>
+                                            <!--Form Group-->
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                <div class="field-label">Password <sup>*</sup></div>
+                                                <input type="text" name="field-name" value=""
+                                                    placeholder="Email Address">
+                                            </div>
+
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                <div class="place-order">
+                                                    <button type="submit" class="theme-btn order-btn">Login</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                <form action="{{ route('register') }}" method="POST" name="frmRegister" id="frmRegister"
+                                    role="form" data-skip="" data-validation="">
+                                    @csrf
+                                    <div class="title-box">
+                                        <h2>Register</h2>
+                                    </div>
+                                    <div class="billing-inner">
+                                        <div class="row clearfix">
+                                            <!--Form Group-->
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                <div class="field-label">Name <sup>*</sup></div>
+                                                <input type="text" name="name" value=""
+                                                    placeholder="Enter Name">
+                                            </div>
+                                            <!--Form Group-->
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                <div class="field-label">Email Address <sup>*</sup></div>
+                                                <input type="email" name="email" value=""
+                                                    placeholder="Email Address">
+                                            </div>
+                                            <!--Form Group-->
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                <div class="field-label">Mobile Number <sup>*</sup></div>
+                                                <input type="text" name="phone" value=""
+                                                    placeholder="Mobile Number">
+                                            </div>
+                                            <!--Form Group-->
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                <div class="field-label">Password <sup>*</sup></div>
+                                                <input type="password" name="password" value=""
+                                                    placeholder="Enter Password">
+                                            </div>
+
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                <div class="place-order">
+                                                    <button type="submit" class="theme-btn order-btn">Register</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    @endif
 
                 </div>
 

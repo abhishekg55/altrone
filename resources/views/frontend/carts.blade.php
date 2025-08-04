@@ -85,7 +85,7 @@
                             <li class="clearfix total"><span class="col">Total</span><span
                                     class="col price">₹{{ number_format(\Cart::getTotal(), 2) }}</span></li>
                             <li class="text-right">
-                                <a href="{{ route('checkout') }}" class="theme-btn proceed-btn">
+                                <a href="{{ route('goTocheckout') }}" class="theme-btn proceed-btn">
                                     Proceed to Checkout
                                 </a>
                             </li>

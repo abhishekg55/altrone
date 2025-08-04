@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
@@ -17,14 +18,19 @@ Route::group(['prefix' => 'carts', 'as' => 'carts.'], function () {
     Route::POST('/update', [CartController::class, 'update'])->name('update');
 });
 
-Route::middleware(['guest:user'])->group(function () {
-    Route::GET('/checkout', [HomeController::class, 'checkout'])->name('checkout');
-});
+Route::POST('/register', [HomeController::class, 'register'])->name('register');
+Route::POST('/login', [HomeController::class, 'login'])->name('user.login');
+Route::GET('/checkout', [OrderController::class, 'goTocheckout'])->name('goTocheckout');
 
 Route::middleware(['guest'])->group(function () {
     Route::GET('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::POST('/login', [LoginController::class, 'login']);
     Route::GET('/password/reset', [LoginController::class, 'reset'])->name('password.request');
+});
+
+Route::group(['middleware' => ['auth:customer']], function () {
+    Route::POST('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+    // 
 });
 
 Route::group(['middleware' => ['auth']], function () {
