@@ -25,7 +25,7 @@ class HomeController extends Controller
     public function index()
     {
         // if (auth()->user()->is_admin) {
-            return view('backend.index');
+        return view('backend.index');
         // }
     }
 
@@ -34,5 +34,11 @@ class HomeController extends Controller
         $products = Product::where('status', true)->orderBy('id', 'desc')->limit(10)->get();
 
         return view('frontend.index', compact('products'));
+    }
+
+    public function products()
+    {
+        $products = Product::where('status', true)->latest()->paginate(10);
+        return view('frontend.products', compact('products'));
     }
 }

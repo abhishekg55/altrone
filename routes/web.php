@@ -8,10 +8,7 @@ use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'frontHomePage'])->name('front.home');
-Route::post('/enquiry', [HomeController::class, 'enquiry'])->name('enquiry');
-Route::get('/about-us', [HomeController::class, 'about'])->name('about-us');
-Route::get('/contact-us', [HomeController::class, 'contact'])->name('contact-us');
-Route::get('/products', [HomeController::class, 'products'])->name('products');
+Route::get('/front/products', [HomeController::class, 'products'])->name('front.products');
 
 Route::group(['prefix' => 'carts', 'as' => 'carts.'], function () {
     Route::get('/', [CartController::class, 'index'])->name('index');
@@ -38,7 +35,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{uuid}', [ProductController::class, 'edit'])->name('edit');
         Route::POST('/update', [ProductController::class, 'update'])->name('update');
     });
- 
+
     Route::group(['prefix' => 'vendors', 'as' => 'vendors.'], function () {
         Route::get('/', [VendorController::class, 'index'])->name('index');
         Route::get('/create', [VendorController::class, 'create'])->name('create');

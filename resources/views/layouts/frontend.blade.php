@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>@yield('title') || Milkroot</title>
+    <title>@yield('title') || {{ config('app.name', 'Altrone') }}</title>
     <!-- Stylesheets -->
     <link href="{{ asset('assets/frontend/css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/frontend/css/style.css') }}" rel="stylesheet">
@@ -98,14 +98,15 @@
                         <div class="nav-outer">
                             <!--Mobile Navigation Toggler-->
                             <div class="mobile-nav-toggler"><img
-                                    src="{{ asset('assets/frontend/images/icons/icon-bar.png') }}" alt=""></div>
+                                    src="{{ asset('assets/frontend/images/icons/icon-bar.png') }}" alt="">
+                            </div>
 
                             <!-- Main Menu -->
                             <nav class="main-menu navbar-expand-md navbar-light">
                                 <div class="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
                                     <ul class="navigation">
                                         <li><a href="{{ route('front.home') }}">Home</a></li>
-                                        <li><a href="">Products</a></li>
+                                        <li><a href="{{ route('front.products') }}">Products</a></li>
                                         <li><a href="#aboutus">About Us</a></li>
                                         <li><a href="#contactus">Contact Us</a></li>
                                     </ul>
@@ -151,16 +152,6 @@
                     <div class="menu-outer">
                         <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
                     </div>
-                    <!--Social Links-->
-                    <div class="social-links">
-                        <ul class="clearfix">
-                            <li><a href="#"><span class="fab fa-twitter"></span></a></li>
-                            <li><a href="#"><span class="fab fa-facebook-square"></span></a></li>
-                            <li><a href="#"><span class="fab fa-pinterest-p"></span></a></li>
-                            <li><a href="#"><span class="fab fa-instagram"></span></a></li>
-                            <li><a href="#"><span class="fab fa-youtube"></span></a></li>
-                        </ul>
-                    </div>
                 </nav>
             </div><!-- End Mobile Menu -->
 
@@ -170,35 +161,6 @@
             </div>
         </header>
         <!-- End Main Header -->
-
-        <!--Search Popup-->
-        <div id="search-popup" class="search-popup">
-            <div class="close-search theme-btn"><span class="flaticon-remove"></span></div>
-            <div class="popup-inner">
-                <div class="overlay-layer"></div>
-                <div class="search-form">
-                    <form method="post" action="index.html">
-                        <div class="form-group">
-                            <fieldset>
-                                <input type="search" class="form-control" name="search-input" value=""
-                                    placeholder="Search Here" required>
-                                <input type="submit" value="Search Now!" class="theme-btn">
-                            </fieldset>
-                        </div>
-                    </form>
-                    <br>
-                    <h3>Recent Search Keywords</h3>
-                    <ul class="recent-searches">
-                        <li><a href="#">Finance</a></li>
-                        <li><a href="#">Idea</a></li>
-                        <li><a href="#">Service</a></li>
-                        <li><a href="#">Growth</a></li>
-                        <li><a href="#">Plan</a></li>
-                    </ul>
-                </div>
-
-            </div>
-        </div>
 
         @yield('content')
 
@@ -284,7 +246,7 @@
                 <div class="footer-bottom">
                     <div class="copyright">
                         <div class="row m-0 justify-content-between">
-                            <div class="text">© Copyright <a href="javascript:void(0)">Milkroot Pvt. Ltd.</a> All
+                            <div class="text">© Copyright <a href="javascript:void(0)">Altrone Pvt. Ltd.</a> All
                                 right
                                 reserved.</div>
                         </div>
@@ -322,7 +284,7 @@
     @stack('scripts')
 
     <script>
-         var imageUrl = "{{ asset('assets/backend/dist/img/spinner-white.svg') }}";
+        var imageUrl = "{{ asset('assets/backend/dist/img/spinner-white.svg') }}";
 
         $.LoadingOverlaySetup({
             background: "rgb(0 0 0 / 78%)",
@@ -350,7 +312,7 @@
         $(document).ajaxStop(function() {
             $.LoadingOverlay("hide", true);
         });
-        
+
         function addToCart(param) {
 
             var data = {
