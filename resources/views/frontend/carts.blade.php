@@ -11,7 +11,7 @@
                 <div class="table-outer">
                     @forelse ($carts as $key => $cart)
                         <table class="cart-table">
-                            <h3>Vendor: {{ $cart->first()->attributes->vendor_name }}</h3>
+                            <h3 class="mt-3 mb-3">{{ $cart->first()->attributes->vendor_name }}</h3>
                             <thead class="cart-header">
                                 <tr>
                                     <th>Preview</th>
@@ -55,7 +55,8 @@
                         </table>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-danger">No Record found ! <a href="{{ route('front.home') }}">
+                            <td colspan="6" class="text-danger">No Record found ! <a
+                                    href="{{ route('front.products') }}">
                                     keep shopping</a></td>
                         </tr>
                     @endforelse
@@ -83,17 +84,18 @@
                             </li>
                             <li class="clearfix total"><span class="col">Total</span><span
                                     class="col price">₹{{ number_format(\Cart::getTotal(), 2) }}</span></li>
-                            <li class="text-right"><button type="submit" class="theme-btn proceed-btn">Proceed to
-                                    Checkout</button></li>
+                            <li class="text-right">
+                                <a href="{{ route('checkout') }}" class="theme-btn proceed-btn">
+                                    Proceed to Checkout
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
     <!--End Cart Section-->
-
 @endsection
 @push('scripts')
     <script>

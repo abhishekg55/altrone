@@ -17,6 +17,10 @@ Route::group(['prefix' => 'carts', 'as' => 'carts.'], function () {
     Route::POST('/update', [CartController::class, 'update'])->name('update');
 });
 
+Route::middleware(['guest:user'])->group(function () {
+    Route::GET('/checkout', [HomeController::class, 'checkout'])->name('checkout');
+});
+
 Route::middleware(['guest'])->group(function () {
     Route::GET('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::POST('/login', [LoginController::class, 'login']);

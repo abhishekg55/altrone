@@ -109,6 +109,7 @@
                                         <li><a href="{{ route('front.products') }}">Products</a></li>
                                         <li><a href="#aboutus">About Us</a></li>
                                         <li><a href="#contactus">Contact Us</a></li>
+                                        <li><a href="{{ route('carts.index') }}">Cart</a></li>
                                     </ul>
                                 </div>
                             </nav>

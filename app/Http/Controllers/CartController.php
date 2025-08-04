@@ -17,6 +17,10 @@ class CartController extends Controller
             return $item->attributes->vendor_id;
         });
 
+        if (count($carts) < 1) {
+            return redirect()->route('front.products');
+        }
+
         return view('frontend.carts', compact('carts'));
     }
 

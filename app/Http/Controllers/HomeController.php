@@ -41,4 +41,9 @@ class HomeController extends Controller
         $products = Product::where('status', true)->latest()->paginate(10);
         return view('frontend.products', compact('products'));
     }
+
+    public function checkout()
+    {
+        return view('frontend.checkout');
+    }
 }
