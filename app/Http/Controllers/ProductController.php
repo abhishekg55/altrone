@@ -57,7 +57,7 @@ class ProductController extends Controller
             'stock' => $request->stock,
             'description' => $request->description,
             'image' => $image_path,
-            'vendor_id' => 1
+            'vendor_id' => auth()->id()
         ]);
 
         return response()->json(['res_code' => 1, 'method' => 'redirect_with_msg', 'title' => 'Success', 'type' => 'success', 'link' => route('products.index'), 'message' => 'Product created Successfully !']);

@@ -24,16 +24,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->is_admin) {
+        // if (auth()->user()->is_admin) {
             return view('backend.index');
-        }
+        // }
     }
 
-    function frontHomePage()
+    public function frontHomePage()
     {
         $products = Product::where('status', true)->orderBy('id', 'desc')->limit(10)->get();
-        $testimonials = [];
 
-        return view('frontend.index', compact('products', 'testimonials'));
+        return view('frontend.index', compact('products'));
     }
 }

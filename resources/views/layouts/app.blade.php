@@ -64,8 +64,8 @@
             <ul class="navbar-nav ml-auto">
                 <!-- Messages Dropdown Menu -->
                 <li class="nav-item d-flex">
-                    Welcome, <a href="javascript:void(0)" class="d-block"> {{ auth()->user()->name }}</a>
-                </li>
+                    Welcome, <strong class="d-block ml-2"> {{ auth()->user()->name }}</strong>
+                </li ml-2>
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -86,21 +86,46 @@
                     data-accordion="false">
                     <li class="nav-header">MENU</li>
                     <li class="nav-item">
-                        <a href="{{ route('home') }}" class="nav-link">
+                        <a href="{{ route('home') }}" class="nav-link {{ request()->is('/') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-home"></i>
                             <p>
                                 Dashboard
                             </p>
                         </a>
                     </li>
+                    @can('access_products')
+                        <li class="nav-item">
+                            <a href="{{ route('products.index') }}" class="nav-link {{ request()->is('products*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-store"></i>
+                                <p>
+                                    Manage Products
+                                </p>
+                            </a>
+                        </li>
+                    @endcan
+                    @can('access_vendors')
+                        <li class="nav-item">
+                            <a href="{{ route('vendors.index') }}" class="nav-link {{ request()->is('vendors*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-store"></i>
+                                <p>
+                                    Manage Vendors
+                                </p>
+                            </a>
+                        </li>
+                    @endcan
                     <li class="nav-item">
-                        <a href="{{ route('products.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-store"></i>
+                        <a href="javascript:void(0)" class="nav-link"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="nav-icon fa fa-sign-out-alt"></i>
                             <p>
-                                Manage Products
+                                Logout
                             </p>
                         </a>
                     </li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+
                 </ul>
                 <!-- /.sidebar-menu -->
             </div>

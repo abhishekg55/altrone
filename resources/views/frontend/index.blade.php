@@ -192,7 +192,7 @@
                         <div class="inner-box">
                             <div class="image">
                                 <a href="javascript:void(0)" class="">
-                                    <img src="{{ asset('/storage/' . $product->image) }}" alt="{{ $product->name }}">
+                                    <img src="{{ asset('/storage/' . $product->image) }}" alt="{{ $product->name }}" style="width: 355px !important; height: 188px !important;">
                                 </a>
                             </div>
                             <div class="lower-content">
@@ -213,37 +213,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Testimonial Section -->
-    @if ($testimonials)
-        <section class="testimonial-section"
-            style="background-image: url({{ asset('assets/frontend/images/background/bg-4.jpg') }});">
-            <div class="auto-container">
-                <div class="theme_carousel owl-theme owl-carousel"
-                    data-options='{"loop": true, "margin": 40, "autoheight":true, "lazyload":true, "nav": true, "dots": true, "autoplay": true, "autoplayTimeout": 6000, "smartSpeed": 1000, "responsive":{ "0" :{ "items": "1" }, "600" :{ "items" : "1" }, "768" :{ "items" : "1" } , "992":{ "items" : "1" }, "1200":{ "items" : "1" }}}'>
-                    @foreach ($testimonials as $testimonial)
-                        <div class="testimonial-block">
-                            <div class="inner-box">
-                                <div class="image">
-                                    <img src="{{ $testimonial->getMedia('testimonials')->first()->getUrl('thumb') }}"
-                                        alt="{{ $testimonial->name }}">
-                                </div>
-                                <div class="content">
-                                    <h2>What our client says</h2>
-                                    <div class="text">{{ $testimonial->message }}</div>
-                                    <div class="author-info">
-                                        <h4>{{ $testimonial->name }}</h4>
-                                        <div class="designation">{{ $testimonial->designation }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </section>
-    @endif
-
 @endsection
 
 @section('extracss')

@@ -20,4 +20,8 @@ class Product extends Model
     {
         return 'uuid';
     }
+
+    public function vendor() {
+        return $this->belongsTo(User::class, 'vendor_id', 'id');
+    }
 }

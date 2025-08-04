@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Product;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Http\JsonResponse;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -11,25 +11,22 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 use Illuminate\Support\Str;
 
-class ProductDataTable extends DataTable
+class VendorDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
      *
-     * @param QueryBuilder<Product> $query Results from query() method.
+     * @param QueryBuilder<User> $query Results from query() method.
      */
     public function ajax(): JsonResponse
     {
         return datatables()
             ->eloquent($this->query())
             ->addColumn('action', function ($query) {
-                return '<a href="' . route('products.edit', $query->uuid) . '"  class="btn btn-outline-primary">
+                return '<a href="' . route('vendors.edit', $query->uuid) . '"  class="btn btn-outline-primary">
                             <i class="fa fa-edit"></i>
                         </a>
                         ';
-            })
-            ->editColumn('image', function ($query) {
-                return '<img src="' . asset('storage/' . $query->image) . '" class="img img-circle" width="50" height="50">';
             })
             ->editColumn('created_at', function ($query) {
                 return date('d-m-Y h:i A', strtotime($query->created_at));
@@ -47,25 +44,19 @@ class ProductDataTable extends DataTable
                 }
             })
             ->setRowId('id')
-            ->rawColumns(['action', 'image'])
+            ->rawColumns(['action'])
             ->make(true);
     }
 
     /**
      * Get the query source of dataTable.
      *
-     * @return QueryBuilder<Product>
+     * @return QueryBuilder<User>
      */
     public function query(): QueryBuilder
     {
-        $query = Product::with('vendor');
-        
-        if(auth()->user()->hasRole('vendor')){
-            $query->where('vendor_id', auth()->id());
-        }
-
-        $query->orderBy('created_at', 'desc');
-
+        $query = User::role('vendor')->orderBy('created_at', 'desc');
+       
         return $this->applyScopes($query);
     }
 
@@ -75,7 +66,7 @@ class ProductDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('productTable')
+            ->setTableId('vendorTable')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->responsive()
@@ -100,28 +91,17 @@ class ProductDataTable extends DataTable
      */
     public function getColumns(): array
     {
-
-        if (auth()->user()->hasRole('vendor')) {
-            $columns[] = Column::computed('action')
+        return [
+            Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
-                ->addClass('text-center');
-        }
-
-        $columns[] = Column::make('image')->orderable(false);
-        $columns[] = Column::make('name');
-
-        if (auth()->user()->is_admin) {
-            $columns[] = Column::make('vendor.name')->title('Vendor Name');
-        }
-
-        $columns[] =    Column::make('price')->addClass('dt-body-left dt-head-left');
-        $columns[] =    Column::make('stock')->addClass('dt-body-left dt-head-left');
-        $columns[] =    Column::make('status');
-        $columns[] =    Column::make('created_at');
-
-        return $columns;
+                ->addClass('text-center'),
+            Column::make('name'),
+            Column::make('email'),
+            Column::make('status'),
+            Column::make('created_at'),
+        ];
     }
 
     /**
@@ -129,6 +109,6 @@ class ProductDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Product_' . date('YmdHis');
+        return 'Vendor_' . date('YmdHis');
     }
 }

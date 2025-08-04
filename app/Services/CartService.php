@@ -6,6 +6,7 @@ use App\Models\Product;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CartService
 {
@@ -15,8 +16,8 @@ class CartService
 
             DB::beginTransaction();
 
-            $product = Product::where('uuid', $uuid)->firstOrFaiil();
-
+            $product = Product::where('uuid', $uuid)->firstOrFail();
+            
             if ($product->stock < $quantity) {
                 DB::rollBack();
                 return [
@@ -25,12 +26,12 @@ class CartService
                 ];
             }
 
-            Cart::add([
+           \Cart::add(
                 $product->uuid,
                 $product->name,
                 $product->price,
                 $quantity
-            ]);
+            );
 
             DB::commit();
 
@@ -39,6 +40,7 @@ class CartService
                 'message' => $product->name . ' added to the cart.'
             ];
         } catch (Exception $ex) {
+            Log::error($ex->getMessage());
             DB::rollBack();
 
             return [
