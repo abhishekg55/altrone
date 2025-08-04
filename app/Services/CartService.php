@@ -4,8 +4,6 @@ namespace App\Services;
 
 use App\Models\Product;
 use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class CartService
@@ -14,26 +12,26 @@ class CartService
     {
         try {
 
-            DB::beginTransaction();
+            $product = Product::with('vendor')->where('uuid', $uuid)->firstOrFail();
 
-            $product = Product::where('uuid', $uuid)->firstOrFail();
-            
             if ($product->stock < $quantity) {
-                DB::rollBack();
                 return [
                     'status' => 0,
-                    'message' => "Product {$product->id} has insufficient stock."
+                    'message' => "Product {$product->name} has insufficient stock."
                 ];
             }
 
-           \Cart::add(
-                $product->uuid,
-                $product->name,
-                $product->price,
-                $quantity
-            );
-
-            DB::commit();
+            \Cart::add([
+                'id' => $product->uuid,
+                'name' => $product->name,
+                'price' => $product->price,
+                'quantity' => $quantity,
+                'attributes' => [
+                    'vendor_id' => $product->vendor_id,
+                    'vendor_name' => $product->vendor->name,
+                    'image' => $product->image
+                ]
+            ]);
 
             return [
                 'status' => 1,
@@ -41,8 +39,6 @@ class CartService
             ];
         } catch (Exception $ex) {
             Log::error($ex->getMessage());
-            DB::rollBack();
-
             return [
                 'status' => 0,
                 'message' => 'Whoops, Something Went Wrong!'

@@ -312,13 +312,45 @@
     <script type="text/javascript" src="{{ asset('assets/frontend/js/scrollbar.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/frontend/js/TweenMax.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/frontend/js/swiper.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/frontend/js/jquery.bootstrap-touchspin.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/frontend/js/script.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/backend/dist/js/function.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/backend/dist/js/sweetalert2.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.6/dist/loadingoverlay.min.js">
     </script>
 
+    @stack('scripts')
+
     <script>
+         var imageUrl = "{{ asset('assets/backend/dist/img/spinner-white.svg') }}";
+
+        $.LoadingOverlaySetup({
+            background: "rgb(0 0 0 / 78%)",
+            image: imageUrl,
+            imageAnimation: "3s pulse",
+            imageColor: "#ffcc00",
+            text: "Processing...",
+            textColor: '#ffffff',
+        });
+
+        $(document).ajaxStart(function() {
+            $.LoadingOverlay("show");
+
+            $.LoadingOverlay("css", "font-size: 40px");
+
+            setTimeout(function() {
+                $.LoadingOverlay("text", "It may take a couple of minutes...");
+            }, 20000);
+
+            setTimeout(function() {
+                $.LoadingOverlay("text", "It is nearly done...");
+            }, 50000);
+        });
+
+        $(document).ajaxStop(function() {
+            $.LoadingOverlay("hide", true);
+        });
+        
         function addToCart(param) {
 
             var data = {
@@ -328,7 +360,7 @@
             customAjax("{{ route('carts.store') }}", JSON.stringify(data));
         }
     </script>
-    @yield('extrajs')
+
 
 </body>
 

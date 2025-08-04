@@ -16,6 +16,8 @@ Route::get('/products', [HomeController::class, 'products'])->name('products');
 Route::group(['prefix' => 'carts', 'as' => 'carts.'], function () {
     Route::get('/', [CartController::class, 'index'])->name('index');
     Route::POST('/store', [CartController::class, 'store'])->name('store');
+    Route::POST('/remove', [CartController::class, 'remove'])->name('remove');
+    Route::POST('/update', [CartController::class, 'update'])->name('update');
 });
 
 Route::middleware(['guest'])->group(function () {
