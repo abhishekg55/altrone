@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid');
             $table->foreignId('user_id')->constrained('users', 'id');
             $table->tinyInteger('status')->default(false)->comment('0 => Pending, 1 => Transit, 2 => Delivered');
             $table->tinyInteger('payment_status')->default(false)->comment('0 => Pending, 1 => Paid, 2 => Cancelled');
+            $table->string('address')->nullable();
+            $table->integer('total_amount')->default(0);
             $table->timestamp('delivery_at')->nullable();
             $table->timestamps();
         });

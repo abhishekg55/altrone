@@ -34,6 +34,17 @@ class ProductFactory extends Factory
 
         $filename = $files->random();
 
+        $source = public_path('products/'.$filename);
+        if (!Storage::disk('public')->exists('products/')) {
+            Storage::disk('public')->makeDirectory('products');
+        }
+        $destination = Storage::disk('public')->path('products/'.basename($source));
+        
+        if (copy($source, $destination)) {
+            echo "Image copied successfully.";
+        } else {
+            echo "Failed to copy image.";
+        }
         return [
             'vendor_id' => $vendor->id,
             'name' => $name,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Http\Requests\UserRegisterRequest;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -30,7 +31,18 @@ class HomeController extends Controller
     public function index()
     {
         if (auth()->user()->is_admin || auth()->user()->hasRole('vendor')) {
-            return view('backend.index');
+
+            $orders = Order::with('items', 'user', 'items.product');
+
+            if(auth()->user()->hasRole('vendor')){
+                $orders->whereHas('items', function($q) {
+                    $q->where('vendor_id', auth()->id());
+                });
+            }
+
+            $orders = $orders->orderBy('created_at', 'desc')->latest()->get();
+
+            return view('backend.index', compact('orders'));
         } else {
             return redirect()->back();
         }

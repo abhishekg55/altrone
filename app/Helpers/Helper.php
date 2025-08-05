@@ -21,11 +21,15 @@ class Helper
         return $messages;
     }
 
-    public static function getTaskStatus($status)
+    public static function getOrderStatus($status)
     {
+        $allStatus = [0 => 'Pending', 1 => 'Transit', 2 => 'Delivered'];
+        return $allStatus[$status];
+    }
 
-        $allStatus = [0 => 'Assigned', 1 => 'Started', 2 => 'Timesup', 3 => 'Retake', 4 => 'Finished'];
-
+    public static function getOrderPaymentStatus($status)
+    {
+        $allStatus = [0 => 'Pending', 1 => 'Paid', 2 => 'Cancelled'];
         return $allStatus[$status];
     }
 }

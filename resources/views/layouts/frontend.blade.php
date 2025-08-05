@@ -110,6 +110,16 @@
                                         <li><a href="#aboutus">About Us</a></li>
                                         <li><a href="#contactus">Contact Us</a></li>
                                         <li><a href="{{ route('carts.index') }}">Cart</a></li>
+                                        @if (auth('customer')->check())
+                                            <li class="text-light">Welcome, {{ auth('customer')->user()->name }} <a
+                                                    href="javascript:void(0)"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
+
+                                            <form id="logout-form" action="{{ route('customer.logout') }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                            </form>
+                                        @endif
                                     </ul>
                                 </div>
                             </nav>

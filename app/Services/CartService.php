@@ -21,7 +21,7 @@ class CartService
                 ];
             }
 
-            \Cart::add([
+            $items =  [
                 'id' => $product->uuid,
                 'name' => $product->name,
                 'price' => $product->price,
@@ -31,7 +31,13 @@ class CartService
                     'vendor_name' => $product->vendor->name,
                     'image' => $product->image
                 ]
-            ]);
+            ];
+
+            \Cart::add($items);
+
+            $cart = session()->get('guest_cart', []);
+            $cart[] = $items;
+            session()->put('guest_cart', $cart);
 
             return [
                 'status' => 1,

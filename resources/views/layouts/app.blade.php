@@ -113,6 +113,16 @@
                             </a>
                         </li>
                     @endcan
+                    @can('access_orders')
+                        <li class="nav-item">
+                            <a href="{{ route('orders.index') }}" class="nav-link {{ request()->is('orders*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-store"></i>
+                                <p>
+                                    Manage Orders
+                                </p>
+                            </a>
+                        </li>
+                    @endcan
                     <li class="nav-item">
                         <a href="javascript:void(0)" class="nav-link"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

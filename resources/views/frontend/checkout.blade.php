@@ -14,7 +14,7 @@
                             data-skip="" data-validation="">
                             @csrf
                             <div class="row clearfix">
-                                <div class="col-lg-7 col-md-12 col-sm-12">
+                                <div class="col-lg-6 col-md-12 col-sm-12">
 
                                     <div class="title-box">
                                         <h2>Billing Details</h2>
@@ -22,21 +22,21 @@
                                     <div class="billing-inner">
                                         <div class="row clearfix">
                                             <!--Form Group-->
-                                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
                                                 <div class="field-label">Name <sup>*</sup></div>
                                                 <input value="{{ auth('customer')->user()->name }}" class="form-control"
                                                     disabled>
                                             </div>
 
                                             <!--Form Group-->
-                                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
                                                 <div class="field-label">Email Address <sup>*</sup></div>
                                                 <input value="{{ auth('customer')->user()->email }}" class="form-control"
                                                     disabled>
                                             </div>
 
                                             <!--Form Group-->
-                                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
                                                 <div class="field-label">Phone <sup>*</sup></div>
                                                 <input value="{{ auth('customer')->user()->phone }}" class="form-control"
                                                     disabled>
@@ -52,7 +52,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-5 col-md-12 col-sm-12">
+                                <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="title-box">
                                         <h2>Your Order</h2>
                                     </div>
@@ -106,7 +106,7 @@
                     @else
                         <div class="row clearfix">
                             <div class="col-lg-6 col-md-12 col-sm-12">
-                                <form action="{{ route('user.login') }}" method="POST" name="frmRegister" id="frmRegister"
+                                <form action="{{ route('front.login') }}" method="POST" name="frmRegister" id="frmRegister"
                                     role="form" data-skip="" data-validation="">
                                     @csrf
                                     <div class="title-box">
@@ -117,14 +117,14 @@
                                             <!--Form Group-->
                                             <div class="form-group col-md-12 col-sm-12 col-xs-12">
                                                 <div class="field-label">Email Address <sup>*</sup></div>
-                                                <input type="text" name="field-name" value=""
+                                                <input type="email" name="email" value=""
                                                     placeholder="Email Address">
                                             </div>
                                             <!--Form Group-->
                                             <div class="form-group col-md-12 col-sm-12 col-xs-12">
                                                 <div class="field-label">Password <sup>*</sup></div>
-                                                <input type="text" name="field-name" value=""
-                                                    placeholder="Email Address">
+                                                <input type="password" name="password" value=""
+                                                    placeholder="Enter Password">
                                             </div>
 
                                             <div class="form-group col-md-12 col-sm-12 col-xs-12">

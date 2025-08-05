@@ -19,6 +19,8 @@ class RolePermissionSeeder extends Seeder
             'create_product',
             'edit_product',
             'view_product',
+            'access_orders',
+            'view_order'
         ];
 
          foreach ($allPermissions as $permission) {
