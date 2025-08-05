@@ -17,7 +17,7 @@ class ProductSeeder extends Seeder
     {
         $vendorRole = Role::firstOrCreate(['name' => 'vendor']);
 
-        User::factory(50)->create()->each(function ($user) use ($vendorRole) {
+        User::factory(10)->create()->each(function ($user) use ($vendorRole) {
             $user->assignRole($vendorRole);
         });
 
