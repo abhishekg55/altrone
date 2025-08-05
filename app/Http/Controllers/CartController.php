@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\User;
 use App\Services\CartService;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -48,19 +51,36 @@ class CartController extends Controller
 
     public function update(Request $request)
     {
+        try {
 
-        $cart = \Cart::update(
-            $request->id,
-            [
-                'quantity' => [
-                    'relative' => false,
-                    'value' => $request->quantity
-                ],
-            ]
-        );
+            DB::beginTransaction();
 
-        if ($cart) {
-            return response()->json(['res_code' => 1, 'method' => 'redirect_with_msg', 'title' => 'Success', 'type' => 'success', 'link' => route('carts.index'), 'message' => 'Cart updated!']);
+            $product = Product::where('status', true)->where('uuid',  $request->id)->lockForUpdate()->first();
+
+            if ($product->stock < $request->quantity) {
+                DB::rollBack();
+                return response()->json(['res_code' => 1, 'message' => $product->name . ' is out of stock, only ' . $product->stock . ' in the stock.', 'method' => "error_message", 'title' => 'Error', 'type' => 'error']);
+            }
+
+            $cart = \Cart::update(
+                $request->id,
+                [
+                    'quantity' => [
+                        'relative' => false,
+                        'value' => $request->quantity
+                    ],
+                ]
+            );
+
+            DB::commit();
+
+            if ($cart) {
+                return response()->json(['res_code' => 1, 'method' => 'redirect_with_msg', 'title' => 'Success', 'type' => 'success', 'link' => route('carts.index'), 'message' => 'Cart updated!']);
+            }
+        } catch (Exception $ex) {
+            DB::rollBack();
+
+            return response()->json(['res_code' => 1, 'message' => ' Whoops, Something went wrong', 'method' => "error_message", 'title' => 'Error', 'type' => 'error']);
         }
     }
 }

@@ -119,7 +119,7 @@ class OrderController extends Controller
                 'payment_status' => 1,
             ]);
 
-            $products = Product::with('vendor')->where('status', true)->get();
+            $products = Product::with('vendor')->where('status', true)->lockForUpdate()->get();
 
             $items = [];
 
@@ -127,7 +127,12 @@ class OrderController extends Controller
 
                 $product = $products->where('uuid', $item->id)->first();
 
+                if ($product->stock < $item->quantity) {
+                    return response()->json(['res_code' => 1, 'message' => $product->name . ' is out of stock, only ' . $product->stock . ' in the stock.', 'method' => "error_message", 'title' => 'Error', 'type' => 'error']);
+                }
+
                 if ($product) {
+
                     $items[] = [
                         'order_id' => $order->id,
                         'product_id' => $product->id,
@@ -137,6 +142,10 @@ class OrderController extends Controller
                         'total_amount' => $item->getPriceSum(),
                         'created_at' => now()
                     ];
+
+                    $product->update([
+                        'stock' =>  $product->stock -= $item->quantity
+                    ]);
                 }
             }
 
