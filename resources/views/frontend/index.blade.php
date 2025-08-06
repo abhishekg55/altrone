@@ -71,7 +71,7 @@
                                     <a href="javascript:void(0)" class="theme-btn"
                                         onclick="addToCart('{{ $product->uuid }}')">Buy Now</a>
                                 @else
-                                    <a href="javascript:void(0)" class="btn-danger">Out of stock</a>
+                                    <label for="" class="text-danger">Out of stock</label>
                                 @endif
                             </div>
                         </div>
