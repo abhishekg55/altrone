@@ -35,8 +35,12 @@
                                         <div class="price">₹{{ number_format($product->price, 2) }}</div>
                                         <p class="text" title="{{ $product->short_description }}">
                                             {{ \Str::words($product->short_description, 12, '...') }}</p>
-                                        <a href="javascript:void(0)" class="theme-btn"
-                                            onclick="addToCart('{{ $product->uuid }}')">Buy Now</a>
+                                        @if ($product->stock)
+                                            <a href="javascript:void(0)" class="theme-btn"
+                                                onclick="addToCart('{{ $product->uuid }}')">Buy Now</a>
+                                        @else
+                                            <a href="javascript:void(0)" class="btn-danger">Out of stock</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
