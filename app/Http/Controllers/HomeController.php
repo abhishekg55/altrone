@@ -34,8 +34,8 @@ class HomeController extends Controller
 
             $orders = Order::with('items', 'user', 'items.product');
 
-            if(auth()->user()->hasRole('vendor')){
-                $orders->whereHas('items', function($q) {
+            if (auth()->user()->hasRole('vendor')) {
+                $orders->whereHas('items', function ($q) {
                     $q->where('vendor_id', auth()->id());
                 });
             }
@@ -50,14 +50,14 @@ class HomeController extends Controller
 
     public function frontHomePage()
     {
-        $products = Product::where('status', true)->orderBy('id', 'desc')->limit(10)->get();
+        $products = Product::where('status', true)->orderBy('id', 'desc')->limit(20)->get();
 
         return view('frontend.index', compact('products'));
     }
 
     public function products()
     {
-        $products = Product::where('status', true)->latest()->paginate(10);
+        $products = Product::where('status', true)->latest()->paginate(20);
         return view('frontend.products', compact('products'));
     }
 
